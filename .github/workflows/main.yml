@@ -1,0 +1,32 @@
+name: KnifeHub Release
+
+on: 
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+      with:
+        # 为了让 git 有日志 (git log) 可寻，还得在检出的时候顺带把所有提交历史一并拉下来，指定 fetch-depth 就能做到
+        fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
+        
+    - name: Build
+      run: |
+        tar -zcvf 1.sh 1.tar.gz 
+      
+    - name: Create Release and Upload Release Asset
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        body_path: temp-release-note.md
+        draft: false
+        prerelease: false
+        files: |
+          1.tar.gz
