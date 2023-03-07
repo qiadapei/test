@@ -19,14 +19,13 @@ jobs:
         
     - name: Build
       run: |
-        tar -zcvf 1.sh 1.tar.gz 
+        zip -r 1.zip 1.sh
       
     - name: Create Release and Upload Release Asset
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        body_path: temp-release-note.md
         draft: false
         prerelease: false
         files: |
-          1.tar.gz
+          1.zip
