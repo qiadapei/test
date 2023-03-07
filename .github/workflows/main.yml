@@ -1,4 +1,4 @@
-name: KnifeHub Release
+name: Test Release
 
 on: 
   push:
